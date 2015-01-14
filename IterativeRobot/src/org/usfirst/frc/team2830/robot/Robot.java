@@ -4,7 +4,6 @@ package org.usfirst.frc.team2830.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 /**
@@ -55,7 +54,6 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         robotDrive.mecanumDrive_Cartesian(stick.getX(), stick.getY(), stick.getZ(), 0);
         
-        Timer.delay(0.005);	// wait 5ms to avoid hogging CPU cycles
     }
     
     /**
