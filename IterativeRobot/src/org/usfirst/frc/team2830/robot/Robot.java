@@ -20,10 +20,10 @@ public class Robot extends IterativeRobot {
     Joystick stick;
 
     // Channels for the wheels
-    final int frontLeftChannel	= 2;
-    final int rearLeftChannel	= 3;
+    final int frontLeftChannel	= 0;
+    final int rearLeftChannel	= 2;
     final int frontRightChannel	= 1;
-    final int rearRightChannel	= 0;
+    final int rearRightChannel	= 3;
     
     // The channel on the driver station that the joystick is connected to
     final int joystickChannel	= 0;
