@@ -19,11 +19,13 @@ public class Robot extends IterativeRobot {
     RobotDrive robotDrive;
     Joystick stick;
 
-    // Channels for the wheels
+    // Channels for the wheels e e
+    final int rearRightChannel	= 3;
+    final int frontRightChannel	= 1;
     final int frontLeftChannel	= 0;
     final int rearLeftChannel	= 2;
-    final int frontRightChannel	= 1;
-    final int rearRightChannel	= 3;
+
+
     
     // The channel on the driver station that the joystick is connected to
     final int joystickChannel	= 0;
@@ -33,12 +35,19 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	robotDrive.setExpiration(0.1);
-        robotDrive = new RobotDrive(frontLeftChannel, rearLeftChannel, frontRightChannel, rearRightChannel);
-    	robotDrive.setInvertedMotor(MotorType.kFrontLeft, true);	// invert the left side motors
-    	robotDrive.setInvertedMotor(MotorType.kRearLeft, true);		// you may need to change or remove this to match your robot
+    
+    	try {
 
-        stick = new Joystick(joystickChannel);
+			robotDrive = new RobotDrive(frontLeftChannel, rearLeftChannel, frontRightChannel, rearRightChannel);
+			robotDrive.setExpiration(0.1);
+			robotDrive.setInvertedMotor(MotorType.kFrontRight, true);	// invert the left side motors
+			robotDrive.setInvertedMotor(MotorType.kRearRight, true);		// you may need to change or remove this to match your robot
+
+			stick = new Joystick(joystickChannel);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -64,3 +73,4 @@ public class Robot extends IterativeRobot {
     }
     
 }
+
