@@ -21,19 +21,25 @@ public class Robot extends IterativeRobot {
      */	
     RobotDrive robotDrive;
     Joystick stick;
+    Joystick stickTwo;
     Gyro strafingGyro;
     // Channels for the wheels e e
     final int rearRightChannel	= 3;
     final int frontRightChannel	= 1;
     final int frontLeftChannel	= 0;
     final int rearLeftChannel	= 2;
-    final int gyro =3;
+  
+    final int gyro = 1;
+    
+    
+    
     
 
 
     
     // The channel on the driver station that the joystick is connected to
     final int joystickChannel	= 0;
+    final int joystickChannel2  = 1;
     
     public void robotInit() {
     	try {
@@ -44,6 +50,7 @@ public class Robot extends IterativeRobot {
 			robotDrive.setInvertedMotor(MotorType.kRearRight, true);		// you may need to change or remove this to match your robot
 
 			stick = new Joystick(joystickChannel);
+			stickTwo = new Joystick(joystickChannel2);
 			
 			strafingGyro = new Gyro(gyro);
 			
@@ -97,13 +104,25 @@ public class Robot extends IterativeRobot {
         	}
         	else 
         	{
-        		rotatingSpeed = .5;
-        	}
-        
         	
+        		if (strafingGyro.getAngle() < 0)
+        		{rotatingSpeed = .5;
+        				
+        		}
+        		else
+        		{rotatingSpeed = -.5;
+        			
+        		}	
+        		}
+        	{
+        		// if (stickTwo.getAxis(Joystick.AxisType.kX > 0);
+        		
+        		
+        	}
+        	
+        	}
+        robotDrive.mecanumDrive_Cartesian( stick.getAxis(Joystick.AxisType.kX),stick.getAxis(Joystick.AxisType.kY),rotatingSpeed,0);
         
-        
-        }
         
     }
     
