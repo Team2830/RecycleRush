@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -54,6 +55,10 @@ public class Robot extends IterativeRobot {
 			
 			strafingGyro = new Gyro(gyro);
 			
+			new SmartDashboard();
+			
+			SmartDashboard.putNumber("Gyro Correction", 0.15);
+			
 			strafingGyro.setSensitivity(.007);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -75,9 +80,11 @@ public class Robot extends IterativeRobot {
     
     boolean lastIsTurning = true;
     final double CORRECTION_RATE = .1;
-    final double DEADBAND = .1;
+    final double DEADBAND = .2;
     double rotatingSpeed;
     final double GYRO_DEADBAND = 2;
+    double setPoint = 0;
+    double gyroCorrection = .15;
     
     public void teleopInit()
     {
@@ -87,30 +94,40 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() 
     {
         boolean isTurning = Math.abs(stick.getTwist()) > DEADBAND;
+        gyroCorrection = SmartDashboard.getNumber("Gyro Correction");
         
-        if (isTurning && !lastIsTurning){
-        	strafingGyro.reset();
+        if (!isTurning && lastIsTurning){
+        	setPoint = strafingGyro.getAngle();
         	rotatingSpeed=0;
+        	System.out.println("A");
+        	lastIsTurning = false;
         
         }else if(isTurning)
         {
         	rotatingSpeed=stick.getTwist();
+        	System.out.println("B");
+        	lastIsTurning = true;
         	
         }else
-        {
-        	if (Math.abs(strafingGyro.getAngle()) < GYRO_DEADBAND)
+        {lastIsTurning = false;
+        	if (Math.abs(strafingGyro.getAngle() - setPoint) < GYRO_DEADBAND)
+        		
         	{
         		rotatingSpeed = 0;
+        		System.out.println("C");
+        		
         	}
         	else 
         	{
         	
-        		if (strafingGyro.getAngle() < 0)
-        		{rotatingSpeed = .5;
+        		if (strafingGyro.getAngle() - setPoint < 0)
+        		{rotatingSpeed = gyroCorrection;
+        		System.out.println("D");
         				
         		}
         		else
-        		{rotatingSpeed = -.5;
+        		{rotatingSpeed = -gyroCorrection;
+        		System.out.println("E");
         			
         		}	
         		}
@@ -121,7 +138,7 @@ public class Robot extends IterativeRobot {
         	}
         	
         	}
-        robotDrive.mecanumDrive_Cartesian( stick.getAxis(Joystick.AxisType.kX),stick.getAxis(Joystick.AxisType.kY),rotatingSpeed,0);
+        robotDrive.mecanumDrive_Cartesian( stick.getAxis(Joystick.AxisType.kX),stick.getAxis(Joystick.AxisType.kY),rotatingSpeed, strafingGyro.getAngle());
         
         
     }
