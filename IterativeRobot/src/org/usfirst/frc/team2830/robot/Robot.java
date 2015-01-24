@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2830.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
     Joystick stick;
     Joystick stickTwo;
     Gyro strafingGyro;
+    DoubleSolenoid solenoid;
     // Channels for the wheels e e
     final int rearRightChannel	= 3;
     final int frontRightChannel	= 1;
@@ -31,6 +33,12 @@ public class Robot extends IterativeRobot {
     final int rearLeftChannel	= 2;
   
     final int gyro = 1;
+    
+    
+	
+	
+    
+    	
     
     
     
@@ -60,6 +68,9 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Gyro Correction", 0.15);
 			
 			strafingGyro.setSensitivity(.007);
+			
+			solenoid = new DoubleSolenoid( 0, 1);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,6 +142,21 @@ public class Robot extends IterativeRobot {
         			
         		}	
         		}
+        	
+        	{
+        		if (stickTwo.getRawButton(6))
+            	{
+            		solenoid.set(DoubleSolenoid.Value.kForward);
+            		
+            	}else if(stickTwo.getRawButton(4))
+            	{ 
+            		solenoid.set(DoubleSolenoid.Value.kReverse);
+            		
+            	}
+        	}
+        	
+        	
+        	
         	{
         		// if (stickTwo.getAxis(Joystick.AxisType.kX > 0);
         		
